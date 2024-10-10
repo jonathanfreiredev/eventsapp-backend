@@ -5,8 +5,8 @@ COPY . .
 RUN npm install
 ENV NODE_ENV development
 
-RUN ["pnpm", "build"]
+RUN ["npm", "run", "build"]
 
 EXPOSE 4000
 
-CMD ["sh", "-c", "pnpm migrations:run && pnpm start:dev"]
+CMD ["sh", "-c", "npm run migrations:run && npm run start:dev"]

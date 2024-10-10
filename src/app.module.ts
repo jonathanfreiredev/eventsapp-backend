@@ -2,8 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 
+import { AddressesModule } from './addresses/addresses.module';
+import { CommentsModule } from './comments/comments.module';
 import config from './config';
 import { DatabaseModule } from './database/database.module';
+import { EventsModule } from './events/events.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -22,6 +26,10 @@ import { DatabaseModule } from './database/database.module';
       }),
     }),
     DatabaseModule,
+    UsersModule,
+    EventsModule,
+    CommentsModule,
+    AddressesModule,
   ],
 })
 export class AppModule {}
