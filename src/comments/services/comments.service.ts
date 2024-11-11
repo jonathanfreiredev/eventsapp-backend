@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EventsService } from 'src/events/services/events.service';
+import { UsersService } from 'src/users/services/users.service';
+import { Repository } from 'typeorm';
 import { CreateCommentDto } from '../dto/create-comment.dto';
-import { UpdateCommentDto } from '../dto/update-comment.dto';
+import { Comment } from '../entities/comment.entity';
 
 @Injectable()
 export class CommentsService {
-  create(createCommentDto: CreateCommentDto) {
-    return 'This action adds a new comment';
+  constructor(
+    @InjectRepository(Comment)
+    private commentsRepository: Repository<Comment>,
+    @Inject(EventsService)
+    private eventsService: EventsService,
+    @Inject(UsersService)
+    private usersService: UsersService,
+  ) {}
+
+  async create(userId: string, createCommentDto: CreateCommentDto) {
+    const user = await this.usersService.findOne(userId);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const { eventId, ...input } = createCommentDto;
+
+    const comment = this.commentsRepository.create(input);
+
+    comment.event = await this.eventsService.findOne(eventId);
+
+    comment.commentedBy = user;
+
+    return await this.commentsRepository.save(comment);
   }
 
-  findAll() {
-    return `This action returns all comments`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
-  }
-
-  update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+  async findOne(id: string) {
+    return await this.commentsRepository.findOne({
+      where: { id },
+    });
   }
 }

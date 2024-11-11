@@ -1,9 +1,9 @@
 import { IsString, IsUUID } from 'class-validator';
 
-export class CreateCommentDto {
+export class CreateReplyDto {
   @IsString()
   content: string;
 
   @IsUUID()
-  eventId: string;
+  commentId: string;
 }

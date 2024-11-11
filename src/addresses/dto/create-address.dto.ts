@@ -1,11 +1,8 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateAddressDto {
   @IsString()
   street: string;
-
-  @IsOptional()
-  streetTwo?: string;
 
   @IsString()
   city: string;

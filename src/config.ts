@@ -3,6 +3,7 @@ import { registerAs } from '@nestjs/config';
 export default registerAs('config', () => {
   return {
     env: process.env.NODE_ENV,
+    jwtSecret: process.env.JWT_SECRET,
     database: {
       url: process.env.DATABASE_URL,
       name: process.env.DATABASE_NAME,

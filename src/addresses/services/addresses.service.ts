@@ -13,13 +13,11 @@ export class AddressesService {
   ) {}
 
   async create(createAddressDto: CreateAddressDto) {
-    const newImage = this.addressRepository.create(createAddressDto);
-    return await this.addressRepository.save(newImage);
+    const newAddress = this.addressRepository.create(createAddressDto);
+    return await this.addressRepository.save(newAddress);
   }
 
-  async update(updateAddressDto: UpdateAddressInput) {
-    const { id, ...input } = updateAddressDto;
-
+  async update(id: string, updateAddressDto: UpdateAddressInput) {
     const address = await this.addressRepository.findOne({
       where: { id },
     });
@@ -28,7 +26,7 @@ export class AddressesService {
       throw new Error('Address not found');
     }
 
-    const mergedInput = this.addressRepository.merge(address, input);
+    const mergedInput = this.addressRepository.merge(address, updateAddressDto);
 
     return await this.addressRepository.save(mergedInput);
   }
