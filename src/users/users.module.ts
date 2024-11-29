@@ -1,16 +1,16 @@
-import { Module } from '@nestjs/common';
-import { UsersService } from './services/users.service';
-import { UsersController } from './controllers/users.controller';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { EventsModule } from 'src/events/events.module';
+import { UsersController } from './controllers/users.controller';
 import { UserFavouriteEvent } from './entities/user-favourite-event.entity';
+import { User } from './entities/user.entity';
 import { UsersFavouriteEventsService } from './services/users-favourite-events.service';
-import { UsersFavouriteEventsController } from './controllers/users-favourite-events.controller';
+import { UsersService } from './services/users.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, UserFavouriteEvent])],
-  controllers: [UsersController, UsersFavouriteEventsController],
+  imports: [TypeOrmModule.forFeature([User, UserFavouriteEvent]), forwardRef(() => EventsModule)],
+  controllers: [UsersController],
   providers: [UsersService, UsersFavouriteEventsService],
   exports: [UsersService],
 })
-export class UsersModule {}
+export class UsersModule { }

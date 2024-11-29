@@ -8,6 +8,8 @@ import config from './config';
 import { DatabaseModule } from './database/database.module';
 import { EventsModule } from './events/events.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { ImagesModule } from './images/images.module';
 
 @Module({
   imports: [
@@ -25,11 +27,13 @@ import { UsersModule } from './users/users.module';
         DATABASE_PASSWORD: Joi.string().min(3).required(),
       }),
     }),
+    AuthModule,
     DatabaseModule,
     UsersModule,
     EventsModule,
     CommentsModule,
     AddressesModule,
+    ImagesModule,
   ],
 })
 export class AppModule {}

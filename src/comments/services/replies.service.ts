@@ -17,16 +17,14 @@ export class RepliesService {
     private usersService: UsersService,
   ) {}
 
-  async create(userId: string, createReplyDto: CreateReplyDto) {
+  async create(userId: string, commentId: string, createReplyDto: CreateReplyDto) {
     const user = await this.usersService.findOne(userId);
 
     if (!user) {
       throw new Error('User not found');
     }
 
-    const { commentId, ...input } = createReplyDto;
-
-    const reply = this.repliesRepository.create(input);
+    const reply = this.repliesRepository.create(createReplyDto);
 
     reply.comment = await this.commentsService.findOne(commentId);
 

@@ -12,6 +12,7 @@ import { EventParticipant } from './event-participant.entity';
 import { User } from '../../users/entities/user.entity';
 import { Comment } from '../../comments/entities/comment.entity';
 import { UserFavouriteEvent } from '../../users/entities/user-favourite-event.entity';
+import { Exclude } from 'class-transformer';
 
 export enum CategoryType {
   Music = 'Music',
@@ -35,6 +36,9 @@ export class Event extends BaseCommonEntity {
   @Column({ name: 'description', type: 'varchar', nullable: true })
   description?: string;
 
+  @Column({ name: 'image', type: 'varchar', nullable: true })
+  image?: string;
+
   @Column({ name: 'start_date', type: 'timestamptz' })
   startDate: Date;
 
@@ -47,20 +51,27 @@ export class Event extends BaseCommonEntity {
   @Column({ name: 'category', type: 'enum', enum: CategoryType })
   category: CategoryType;
 
+  @Column({ name: 'organiser_id', type: 'uuid' })
+  organiserId: string;
+
   @OneToOne(() => Address)
   @JoinColumn({ name: 'address_id' })
   address: Address;
 
   @OneToMany(() => UserFavouriteEvent, (user) => user.event)
+  @Exclude()
   favouriteOfUsers: UserFavouriteEvent[];
 
   @OneToMany(() => EventParticipant, (user) => user.event)
+  @Exclude()
   participants: EventParticipant[];
 
   @ManyToOne(() => User, (user) => user.organisedEvents)
   @JoinColumn({ name: 'organiser_id' })
+  @Exclude()
   organiser: User;
 
   @OneToMany(() => Comment, (comment) => comment.event)
+  @Exclude()
   comments: Comment[];
 }

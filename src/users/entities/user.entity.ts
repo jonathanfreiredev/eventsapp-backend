@@ -3,6 +3,7 @@ import { BaseCommonEntity } from '../../common/entities/BaseCommonEntity';
 import { UserFavouriteEvent } from './user-favourite-event.entity';
 import { Event } from '../../events/entities/event.entity';
 import { EventParticipant } from '../../events/entities/event-participant.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class User extends BaseCommonEntity {
@@ -18,18 +19,24 @@ export class User extends BaseCommonEntity {
   @Column({ name: 'password', type: 'varchar', length: 255 })
   password: string;
 
+  @Column({ name: 'image', type: 'varchar', nullable: true })
+  image?: string;
+
   @OneToMany(
     () => UserFavouriteEvent,
     (userFavouriteEvent) => userFavouriteEvent.user,
   )
+  @Exclude()
   favouriteEvents: UserFavouriteEvent[];
 
   @OneToMany(
     () => EventParticipant,
     (eventParticipant) => eventParticipant.user,
   )
+  @Exclude()
   participatedInEvents: EventParticipant[];
 
   @OneToMany(() => Event, (event) => event.organiser)
+  @Exclude()
   organisedEvents: Event[];
 }

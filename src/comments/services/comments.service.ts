@@ -17,16 +17,14 @@ export class CommentsService {
     private usersService: UsersService,
   ) {}
 
-  async create(userId: string, createCommentDto: CreateCommentDto) {
+  async create(userId: string, eventId: string, createCommentDto: CreateCommentDto) {
     const user = await this.usersService.findOne(userId);
 
     if (!user) {
       throw new Error('User not found');
     }
 
-    const { eventId, ...input } = createCommentDto;
-
-    const comment = this.commentsRepository.create(input);
+    const comment = this.commentsRepository.create(createCommentDto);
 
     comment.event = await this.eventsService.findOne(eventId);
 
@@ -38,6 +36,17 @@ export class CommentsService {
   async findOne(id: string) {
     return await this.commentsRepository.findOne({
       where: { id },
+    });
+  }
+
+  async findAll(eventId: string) {
+    return await this.commentsRepository.find({
+      where: { event: { id: eventId } },
+      relations: [
+        'commentedBy', 
+        'replies',
+        'replies.repliedBy',
+      ],
     });
   }
 }

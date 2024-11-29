@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
-import { LoginResponse } from '../dto/login-response';
+import { UserSession } from '../dto/user-session';
 import { AuthenticatedUser } from '../interfaces/authenticated-request.interface';
 import { PayloadToken } from '../interfaces/token.interface';
 import { UsersService } from './../../users/services/users.service';
@@ -27,7 +27,7 @@ export class AuthService {
     return null;
   }
 
-  generateJWT(user: AuthenticatedUser): LoginResponse {
+  generateJWT(user: AuthenticatedUser): UserSession {
     const payload: PayloadToken = { sub: user.id };
 
     return {
@@ -36,6 +36,7 @@ export class AuthService {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        image: "",
       },
     };
   }

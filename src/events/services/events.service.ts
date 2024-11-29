@@ -1,22 +1,22 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AddressesService } from 'src/addresses/services/addresses.service';
 import { UsersService } from 'src/users/services/users.service';
 import { Repository } from 'typeorm';
 import { CreateEventDto } from '../dto/create-event.dto';
 import { UpdateEventDto } from '../dto/update-event.dto';
-import { Event } from '../entities/event.entity';
+import { CategoryType, Event } from '../entities/event.entity';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectRepository(Event)
-    private eventsRepository: Repository<Event>,
+    private readonly eventsRepository: Repository<Event>,
     @Inject(UsersService)
-    private usersService: UsersService,
+    private readonly usersService: UsersService,
     @Inject(AddressesService)
-    private addressesService: AddressesService,
-  ) {}
+    private readonly addressesService: AddressesService,
+  ) { }
 
   async create(userId: string, createEventDto: CreateEventDto) {
     const user = await this.usersService.findOne(userId);
@@ -36,10 +36,10 @@ export class EventsService {
     return await this.eventsRepository.save(event);
   }
 
-  findOne(id: string) {
-    const event = this.eventsRepository.findOne({
+  async findOne(id: string) {
+    const event = await this.eventsRepository.findOne({
       where: { id },
-      relations: ['address'],
+      relations: ['address', 'participants'],
     });
 
     if (!event) {
@@ -47,6 +47,35 @@ export class EventsService {
     }
 
     return event;
+  }
+
+  async findAll(category?: CategoryType) {
+    return await this.eventsRepository.find({
+      where: {
+        category: category || undefined,
+      },
+      relations: ['address'],
+    });
+  }
+
+  async findMyEvents(userId: string) {
+    return await this.eventsRepository.find({
+      where: {
+        organiserId: userId,
+      },
+      relations: ['address'],
+    });
+  }
+
+  async findParticipatingEvents(userId: string) {
+    return await this.eventsRepository.find({
+      where: {
+        participants: {
+          userId: userId,
+        },
+      },
+      relations: ['address'],
+    })
   }
 
   async update(id: string, updateEventDto: UpdateEventDto) {
@@ -70,5 +99,34 @@ export class EventsService {
     }
 
     return await this.eventsRepository.save(mergedEvent);
+  }
+
+  getCategoryType = (category: string) => {
+    switch (category) {
+      case 'music':
+        return CategoryType.Music;
+      case 'sports':
+        return CategoryType.Sports;
+      case 'workshop':
+        return CategoryType.Workshop;
+      case 'art':
+        return CategoryType.Art;
+      case 'food-and-drink':
+        return CategoryType.FoodAndDrink;
+      case 'business':
+        return CategoryType.Business;
+      case 'languages':
+        return CategoryType.Languages;
+      case 'festival':
+        return CategoryType.Festival;
+      case 'travel':
+        return CategoryType.Travel;
+      case 'outdoors':
+        return CategoryType.Outdoors;
+      case 'social':
+        return CategoryType.Social;
+      default:
+        return null;
+    }
   }
 }

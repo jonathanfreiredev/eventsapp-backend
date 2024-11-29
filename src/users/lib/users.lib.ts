@@ -7,5 +7,6 @@ export const getUserResponseDto = (user: User): UserResponse => {
     email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
+    image: user.image,
   };
 };

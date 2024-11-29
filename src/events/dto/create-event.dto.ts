@@ -26,6 +26,10 @@ export class CreateEventDto {
   @IsNumber()
   capacity: number;
 
+  @IsOptional()
+  @IsString()
+  image?: string | null;
+
   @IsEnum(CategoryType)
   category: CategoryType;
 

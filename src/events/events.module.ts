@@ -1,8 +1,7 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AddressesModule } from 'src/addresses/addresses.module';
 import { UsersModule } from 'src/users/users.module';
-import { EventsParticipantsController } from './controllers/events-participants.controller';
 import { EventsController } from './controllers/events.controller';
 import { EventParticipant } from './entities/event-participant.entity';
 import { Event } from './entities/event.entity';
@@ -15,7 +14,8 @@ import { EventsService } from './services/events.service';
     UsersModule,
     AddressesModule,
   ],
-  controllers: [EventsController, EventsParticipantsController],
+  controllers: [EventsController],
   providers: [EventsService, EventsParticipantsService],
+  exports: [EventsService],
 })
-export class EventsModule {}
+export class EventsModule { }

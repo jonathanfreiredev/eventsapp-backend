@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { BaseCommonEntity } from '../../common/entities/BaseCommonEntity';
 import { Event } from '../../events/entities/event.entity';
 import { User } from './user.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users_favourite_events' })
 export class UserFavouriteEvent extends BaseCommonEntity {
@@ -13,9 +14,11 @@ export class UserFavouriteEvent extends BaseCommonEntity {
 
   @ManyToOne(() => Event, (event) => event.favouriteOfUsers)
   @JoinColumn({ name: 'event_id' })
+  @Exclude()
   event: Event;
 
   @ManyToOne(() => User, (user) => user.favouriteEvents)
   @JoinColumn({ name: 'user_id' })
+  @Exclude()
   user: User;
 }
