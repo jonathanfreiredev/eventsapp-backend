@@ -59,19 +59,15 @@ export class Event extends BaseCommonEntity {
   address: Address;
 
   @OneToMany(() => UserFavouriteEvent, (user) => user.event)
-  @Exclude()
   favouriteOfUsers: UserFavouriteEvent[];
 
   @OneToMany(() => EventParticipant, (user) => user.event)
-  @Exclude()
   participants: EventParticipant[];
 
   @ManyToOne(() => User, (user) => user.organisedEvents)
   @JoinColumn({ name: 'organiser_id' })
-  @Exclude()
   organiser: User;
 
   @OneToMany(() => Comment, (comment) => comment.event)
-  @Exclude()
   comments: Comment[];
 }

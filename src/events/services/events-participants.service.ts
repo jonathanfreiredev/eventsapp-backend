@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/services/users.service';
 import { Repository } from 'typeorm';
@@ -11,7 +11,7 @@ export class EventsParticipantsService {
   constructor(
     @InjectRepository(EventParticipant)
     private readonly eventParticipantRepository: Repository<EventParticipant>,
-    @Inject(forwardRef(() => UsersService))
+    @Inject(UsersService)
     private readonly usersService: UsersService,
     @Inject(EventsService)
     private readonly eventsService: EventsService,
@@ -52,8 +52,8 @@ export class EventsParticipantsService {
   async remove(eventId: string, userId: string) {
     const eventParticipant = await this.eventParticipantRepository.findOne({
       where: {
-        event: { id: eventId },
-        user: { id: userId },
+        eventId,
+        userId,
       },
     });
 

@@ -11,7 +11,7 @@ export class UsersFavouriteEventsService {
     @InjectRepository(UserFavouriteEvent)
     private readonly userFavouriteEventsRepository: Repository<UserFavouriteEvent>,
     private readonly usersService: UsersService,
-    @Inject(forwardRef(() => EventsService))
+    @Inject(EventsService)
     private readonly eventsService: EventsService,
   ) { }
 
@@ -40,8 +40,8 @@ export class UsersFavouriteEventsService {
     }
 
     return await this.userFavouriteEventsRepository.delete({
-      user,
-      event,
+      userId,
+      eventId,
     });
   }
 
@@ -50,7 +50,7 @@ export class UsersFavouriteEventsService {
       where: {
         userId: userId,
       },
-      relations: ['event'],
+      relations: ['event', 'event.participants', 'event.address'],
     });
 
     return response.map((favouriteEvent) => favouriteEvent.event);
@@ -59,10 +59,9 @@ export class UsersFavouriteEventsService {
   async isFavouriteEvent(userId: string, eventId: string) {
     const response = await this.userFavouriteEventsRepository.findOne({
       where: {
-        userId: userId,
-        eventId: eventId,
+        userId,
+        eventId,
       },
-      relations: [],
     });
 
     return !!response;

@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Post,
   Put,
   Request,
@@ -45,7 +46,7 @@ export class UsersController {
   @Post('favourite/:eventId')
   async favouriteEvent(
     @Request() req: AuthenticatedRequest,
-    @Request() eventId: string,
+    @Param('eventId') eventId: string,
   ) {
     const payload = req.user;
     return await this.usersFavouriteEventsService.create(payload.id, eventId);
@@ -54,7 +55,7 @@ export class UsersController {
   @Delete('favourite/:eventId')
   async unfavouriteEvent(
     @Request() req: AuthenticatedRequest,
-    @Request() eventId: string,
+    @Param('eventId') eventId: string,
   ) {
     const payload = req.user;
     return await this.usersFavouriteEventsService.remove(payload.id, eventId);
@@ -69,7 +70,7 @@ export class UsersController {
   @Get('favourite-events/:eventId')
   async isFavouriteEvent(
     @Request() req: AuthenticatedRequest,
-    @Request() eventId: string,
+    @Param('eventId') eventId: string,
   ) {
     const payload = req.user;
     return await this.usersFavouriteEventsService.isFavouriteEvent(payload.id, eventId);

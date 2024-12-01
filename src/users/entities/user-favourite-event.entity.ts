@@ -14,11 +14,9 @@ export class UserFavouriteEvent extends BaseCommonEntity {
 
   @ManyToOne(() => Event, (event) => event.favouriteOfUsers)
   @JoinColumn({ name: 'event_id' })
-  @Exclude()
   event: Event;
 
   @ManyToOne(() => User, (user) => user.favouriteEvents)
   @JoinColumn({ name: 'user_id' })
-  @Exclude()
   user: User;
 }

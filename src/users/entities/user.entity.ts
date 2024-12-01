@@ -20,23 +20,20 @@ export class User extends BaseCommonEntity {
   password: string;
 
   @Column({ name: 'image', type: 'varchar', nullable: true })
-  image?: string;
+  image: string | null;
 
   @OneToMany(
     () => UserFavouriteEvent,
     (userFavouriteEvent) => userFavouriteEvent.user,
   )
-  @Exclude()
   favouriteEvents: UserFavouriteEvent[];
 
   @OneToMany(
     () => EventParticipant,
     (eventParticipant) => eventParticipant.user,
   )
-  @Exclude()
   participatedInEvents: EventParticipant[];
 
   @OneToMany(() => Event, (event) => event.organiser)
-  @Exclude()
   organisedEvents: Event[];
 }
