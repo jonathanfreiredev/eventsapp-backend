@@ -3,7 +3,6 @@ import { BaseCommonEntity } from '../../common/entities/BaseCommonEntity';
 import { UserFavouriteEvent } from './user-favourite-event.entity';
 import { Event } from '../../events/entities/event.entity';
 import { EventParticipant } from '../../events/entities/event-participant.entity';
-import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class User extends BaseCommonEntity {

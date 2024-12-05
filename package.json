@@ -2,7 +2,7 @@
   "name": "eventsapp-backend",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Jonathan Freire Espinoza",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -78,7 +78,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "modulePaths": ["<rootDir>"],
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
@@ -86,7 +86,7 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
-    "coverageDirectory": "../coverage",
+    "coverageDirectory": "./coverage",
     "testEnvironment": "node"
   }
 }

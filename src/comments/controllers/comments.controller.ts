@@ -40,6 +40,4 @@ export class CommentsController {
 
     return await this.repliesService.create(user.id, commentId, createReplyDto);
   }
-
-  
 }

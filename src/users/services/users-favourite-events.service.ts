@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EventsService } from 'src/events/services/events.service';
+import { EventsService } from '../../events/services/events.service';
 import { Repository } from 'typeorm';
 import { UserFavouriteEvent } from '../entities/user-favourite-event.entity';
 import { UsersService } from './users.service';
