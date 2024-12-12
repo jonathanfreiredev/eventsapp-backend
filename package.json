@@ -21,7 +21,8 @@
     "migrations:generate": "npx typeorm migration:generate $1 -d dist/database/data-source.js",
     "migrations:run": "npx typeorm migration:run -d dist/database/data-source.js",
     "migrations:drop": "npx typeorm schema:drop -d dist/database/data-source.js",
-    "migrations:revert": "npx typeorm -d dist/database/data-source.js migration:revert"
+    "migrations:revert": "npx typeorm -d dist/database/data-source.js migration:revert",
+    "seed": "ts-node src/database/init-db.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
