@@ -15,7 +15,10 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const { password, ...user } = createUserDto;
 
-    const userToCreate = this.userRepository.create(user);
+    const userToCreate = this.userRepository.create({
+      ...user,
+      email: user.email.toLowerCase(),
+    });
 
     userToCreate.password = await bcrypt.hash(password, 10);
 
@@ -47,7 +50,10 @@ export class UsersService {
       throw new Error('User not found');
     }
 
-    const userToUpdate = this.userRepository.merge(user, updateUserDto);
+    const userToUpdate = this.userRepository.merge(user, {
+      ...updateUserDto,
+      email: updateUserDto.email ? updateUserDto.email.toLowerCase() : user.email,
+    });
 
     return await this.userRepository.save(userToUpdate);
   }

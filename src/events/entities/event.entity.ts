@@ -12,7 +12,6 @@ import { EventParticipant } from './event-participant.entity';
 import { User } from '../../users/entities/user.entity';
 import { Comment } from '../../comments/entities/comment.entity';
 import { UserFavouriteEvent } from '../../users/entities/user-favourite-event.entity';
-import { Exclude } from 'class-transformer';
 
 export enum CategoryType {
   Music = 'Music',

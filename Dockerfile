@@ -9,4 +9,4 @@ RUN ["npm", "run", "build"]
 
 EXPOSE 4000
 
-CMD ["sh", "-c", "npm run migrations:run && npm run start:dev"]
+CMD ["sh", "-c", "npm run migrations:run && npm run seed && npm run start:dev"]
