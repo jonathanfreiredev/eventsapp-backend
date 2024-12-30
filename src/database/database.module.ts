@@ -19,6 +19,9 @@ import config from '../config';
           database: configService.database.name,
           synchronize: false,
           autoLoadEntities: true,
+          ssl: {
+            rejectUnauthorized: false,
+          }
         };
       },
     }),
